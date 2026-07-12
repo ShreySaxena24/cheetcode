@@ -3,6 +3,7 @@ package com.shrary.cheetcode.scheduler;
 import com.shrary.cheetcode.client.LeetcodeNetworkClient;
 import com.shrary.cheetcode.dao.QuestionDao;
 import com.shrary.cheetcode.dto.leetcode.MetadataResponse;
+import com.shrary.cheetcode.dto.leetcode.QuestionItem;
 import com.shrary.cheetcode.entity.Question;
 import com.shrary.cheetcode.service.CursorService;
 import lombok.RequiredArgsConstructor;
@@ -59,7 +60,7 @@ public class QuestionMetadataSyncScheduler {
             }
 
             int total = problemset.getTotal();
-            List<MetadataResponse.QuestionItem> questions = problemset.getQuestions();
+            List<QuestionItem> questions = problemset.getQuestions();
 
             if (questions == null || questions.isEmpty()) {
                 log.info("No questions returned. Resetting skip cursor to 0.");
@@ -69,7 +70,7 @@ public class QuestionMetadataSyncScheduler {
 
             log.info("Received {} questions out of total {}", questions.size(), total);
 
-            for (MetadataResponse.QuestionItem item : questions) {
+            for (QuestionItem item : questions) {
                 Question question = questionDao.findByLeetcodeQuestionId(item.getQuestionId())
                         .orElseGet(() -> Question.builder()
                                 .leetcodeQuestionId(item.getQuestionId())

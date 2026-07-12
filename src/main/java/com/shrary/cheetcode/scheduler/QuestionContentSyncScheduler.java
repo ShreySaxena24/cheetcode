@@ -3,6 +3,7 @@ package com.shrary.cheetcode.scheduler;
 import com.shrary.cheetcode.client.LeetcodeNetworkClient;
 import com.shrary.cheetcode.dao.QuestionDao;
 import com.shrary.cheetcode.dto.leetcode.ContentResponse;
+import com.shrary.cheetcode.dto.leetcode.QuestionContent;
 import com.shrary.cheetcode.entity.Question;
 import com.shrary.cheetcode.service.CursorService;
 import lombok.RequiredArgsConstructor;
@@ -72,7 +73,7 @@ public class QuestionContentSyncScheduler {
                 return;
             }
 
-            ContentResponse.QuestionContent questionContent = response.getData().getQuestion();
+            QuestionContent questionContent = response.getData().getQuestion();
             if (questionContent == null) {
                 log.warn("Question content not found for slug: {}. Marking as premium/failed and advancing cursor.", question.getTitleSlug());
                 cursorService.updateCursor(SCHEDULER_NAME, String.valueOf(question.getId()));
